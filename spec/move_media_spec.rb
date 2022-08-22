@@ -17,7 +17,9 @@ RSpec.describe(MoveMediaVersion) do
   end
 
   it 'finds thumbnails for video file stem C0001' do
-    expect(sony_thumbnails(source, 'C0001').length).to eq(4)
+    thumbs = sony_thumbnails(source, 'C0001')
+    expect(thumbs.length).to eq(4)
+    expect(thumbs[0]).to eq("#{source}/PRIVATE/M4ROOT/THMBNL/C0001T01.JPG")
   end
 
   it 'finds videos' do
