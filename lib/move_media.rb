@@ -52,7 +52,8 @@ def sony_thumbnails(source, stem)
   Dir[thumb_source_names]
 end
 
-def source_bash(dos_drive)
+# @return Linux mount point for DOS drive
+def mount_point(dos_drive)
   match_data = dos_drive.match(/^([a-zA-Z]):/)
   raise "#{dos_drive}  is an invalid DOS drive specification." unless match_data && match_data.length == 2
 
@@ -64,13 +65,19 @@ def video_filenames(source)
   Dir["#{source}/**/*.MP4"].sort
 end
 
+def mount_memory_card(drive, source)
+  %x(sudo mount -t drvfs #{drive} #{source})
+end
+
+def drive_path(source)
+  "/mnt/#{mount_point(source)}"
+end
+
 def main
   topic = 'sony'
-  source = '/mnt/h'
   drive = 'h:'
+  source = mount_point(drive)
   destination = '/mnt/e/media/staging'
-
-  %x(sudo mount -t drvfs #{drive} #{source})
 
   seq = scan_for_highest_seq destination
 
