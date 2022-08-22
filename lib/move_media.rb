@@ -44,6 +44,13 @@ def scan_for_highest_seq(destination)
   seq + 1
 end
 
+def source_bash(dos_drive)
+  match_data = dos_drive.match(/^([a-zA-Z]):/)
+  raise "#{dos_drive}  is an invalid DOS drive specification." unless match_data && match_data.length == 2
+
+  "/mnt/#{match_data[1].downcase}"
+end
+
 def main
   topic = 'sony'
   source = '/mnt/h'
