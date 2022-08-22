@@ -11,6 +11,10 @@ class String
   end
 end
 
+def delete_mp4s(source)
+  Dir[source]
+end
+
 # @param drive [String] contains the mount path to be verified.
 def drive_mounted?(drive)
   %x(mount | grep #{drive}).present?
