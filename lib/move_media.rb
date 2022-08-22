@@ -8,6 +8,8 @@ require_relative 'mm_util'
 class MoveMedia
   attr_reader :destination, :drive, :topic
 
+  SIGNIFICANT_DIGITS = 7
+
   def initialize
     read_configuration
     @seq = 1
@@ -22,29 +24,25 @@ class MoveMedia
     end
   end
 
-  # Destination files are yyyy-mm-dd_topic_01234.{mp4,jpg}
-  def process_video(source, fn_fq)
+  # Destination files are yyyy-mm-dd_topic_0001234.{mp4,jpg}
+  def process_video(fn_fq)
+    seq = @seq.to_s.rjust(SIGNIFICANT_DIGITS, '0')
     new_name = "#{@topic}_#{Date.today}_#{seq}"
     move_and_rename(fn_fq, "#{@destination}/#{new_name}.mp4")
-    move_thumbnails(source, @destination, video_filenameq)
     @seq += 1
+    new_name
   end
 
   # Scans video file names in destination
-  # Files are named like: sony_2022-08-22_000001.mp4
+  # Files are ideally named like: sony_2022-08-22_000001.mp4
   # @return [int] next sequence number based on what is already present in destination
   def scan_for_next_seq(destination)
-    @seq = 0
-    Dir[destination].each do |path|
+    files = Dir["#{destination}/#{topic}_*"]
+    @seq = files.length
+    files.each do |path|
       basename = File.basename(path, '.*')
-      segment = if basename.include?('_')
-                  basename.split('_')[-1]
-                elsif basename.include?('-')
-                  basename.split('-')[-1]
-                else
-                  @seq
-                end
-      @seq = [@seq, segment.to_i].max if segment.integer?
+      seq = basename.split('_')[-1]
+      @seq = [@seq, seq.to_i].max if seq.integer?
     end
     @seq + 1
   end
@@ -64,7 +62,10 @@ class MoveMedia
     source = mount_point(@drive)
     already_mounted = mount_memory_card(source, drive)
     scan_for_highest_seq(destination)
-    video_filenames(source).each { |fn| process_video(source, fn) }
+    video_filenames(source).each do |fn|
+      new_name = process_video(fn)
+      move_thumbnails(source, @destination, new_name)
+    end
     unmount_memory_card(source) unless already_mounted
   end
 end
