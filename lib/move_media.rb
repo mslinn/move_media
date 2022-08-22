@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'fileutils'
+
 # Monkey patch the String class
 class String
   def present?
@@ -15,20 +17,21 @@ def delete_mp4s(source)
   Dir[source]
 end
 
-# @param drive [String] contains the mount path to be verified.
-def drive_mounted?(drive)
-  %x(mount | grep #{drive}).present?
-end
-
-def drive_path(source)
-  "/mnt/#{mount_point(source)}"
+# @param mount_path [String] contains the mount path to be verified.
+def drive_mounted?(mount_path)
+  %x(mount | grep #{mount_path}).present?
 end
 
 def mount_memory_card(drive, source)
+  return if drive_mounted?(source)
+
+  %x(sudo mkdir #{source}) unless File.exist?(source)
   %x(sudo mount -t drvfs #{drive} #{source})
+  nil
 end
 
-# @return Linux mount point for DOS drive
+# @param dos_drive [String] has format X:
+# @return Linux mount point for DOS drive under /mnt, for example /mnt/x
 def mount_point(dos_drive)
   match_data = dos_drive.match(/^([a-zA-Z]):/)
   raise "#{dos_drive}  is an invalid DOS drive specification." unless match_data && match_data.length == 2
@@ -72,6 +75,10 @@ def sony_thumbnails(source, stem)
   Dir[thumb_source_names]
 end
 
+def unmount_memory_card(source)
+  %x(sudo umount #{source})
+end
+
 # /mnt/h/PRIVATE/M4ROOT/CLIP/C0001.MP4
 def video_filenames(source)
   Dir["#{source}/**/*.MP4"].sort
@@ -81,6 +88,7 @@ def main
   topic = 'sony'
   drive = 'h:'
   source = mount_point(drive)
+  mount_memory_card(source, drive)
   destination = '/mnt/e/media/staging'
 
   seq = scan_for_highest_seq destination
@@ -97,5 +105,5 @@ def main
     seq += 1
   end
 
-  %x(sudo umount #{source})
+  unmount_memory_card(source)
 end
