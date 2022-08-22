@@ -11,17 +11,23 @@ class String
   end
 end
 
+# @param drive [String] contains the mount path to be verified.
 def drive_mounted?(drive)
   %x(mount | grep #{drive}).present?
 end
 
+# Moves Sony camera thumbnails for video_filename from source to destination
 def move_thumbnails(source, destination, video_filename)
-  thumb_source_names = "#{source}/PRIVATE/M4ROOT/THMBNL/#{video_filename}*.jpg"
-  Dir[thumb_source_names].each do |old_path|
+  sony_thumbnails(source, video_filename).each do |old_path|
     old_name = File.basename(x, '.*')
     new_path = "#{destination}/#{old_name}.jpg"
     move_and_rename(old_path, new_path)
   end
+end
+
+def sony_thumbnails(source, stem)
+  thumb_source_names = "#{source}/PRIVATE/M4ROOT/THMBNL/#{stem}*.jpg"
+  Dir[thumb_source_names]
 end
 
 def move_and_rename(old_path, new_path)
