@@ -65,6 +65,9 @@ RSpec.describe(MoveMedia) do # rubocop:disable Metrics/BlockLength
   end
 
   after(:all) do
-    %x(git restore --source=HEAD --staged --worktree -- fixtures)
+    %x(
+      git restore --source=HEAD --staged --worktree -- spec/fixtures
+      git clean -f spec/fixtures
+    )
   end
 end
