@@ -2,6 +2,7 @@
 
 CONFIGURATION_FILE = "#{Dir.home}/.move_media"
 
+require 'date'
 require_relative 'mm_util'
 
 # Moves media from a Sony memory card to permanent storage
@@ -24,10 +25,14 @@ class MoveMedia
     end
   end
 
+  def make_video_name
+    seq = @seq.to_s.rjust(SIGNIFICANT_DIGITS, '0')
+    "#{@topic}_#{Date.today}_#{seq}"
+  end
+
   # Destination files are yyyy-mm-dd_topic_0001234.{mp4,jpg}
   def process_video(fn_fq)
-    seq = @seq.to_s.rjust(SIGNIFICANT_DIGITS, '0')
-    new_name = "#{@topic}_#{Date.today}_#{seq}"
+    new_name = make_video_name
     move_and_rename(fn_fq, "#{@destination}/#{new_name}.mp4")
     @seq += 1
     new_name

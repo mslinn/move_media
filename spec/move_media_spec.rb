@@ -2,6 +2,11 @@
 
 require_relative '../lib/move_media'
 
+# Monkey patch class
+class MoveMedia
+  attr_accessor :seq
+end
+
 RSpec.describe(MoveMediaVersion) do # rubocop:disable Metrics/BlockLength
   include MoveMediaVersion
 
@@ -39,6 +44,14 @@ RSpec.describe(MoveMediaVersion) do # rubocop:disable Metrics/BlockLength
 
   it 'scans for next sequence number' do
     mm = MoveMedia.new
-    expect(mm.scan_for_next_seq(destination_video)).to eq(2)
+    expect(mm.scan_for_next_seq(destination_video)).to eq(42)
+  end
+
+  it 'makes next video name' do
+    mm = MoveMedia.new
+    expect(mm.make_video_name).to eq('sony_2022-08-22_0000042')
+
+    mm.seq = 665
+    expect(mm.make_video_name).to eq('sony_2022-08-22_0000666')
   end
 end

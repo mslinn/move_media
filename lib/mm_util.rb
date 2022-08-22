@@ -10,7 +10,7 @@ class String
   end
 
   def integer?
-    to_i.to_s == self
+    !!match(/^(\d)+$/)
   end
 end
 
