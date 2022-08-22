@@ -21,6 +21,8 @@ RSpec.describe(MoveMediaVersion) do
   end
 
   it 'finds videos' do
-    expect(video_filenames(source).length).to eq(1)
+    fns = video_filenames(source)
+    expect(fns.length).to eq(1)
+    expect(fns[0]).to eq("#{source}/PRIVATE/M4ROOT/CLIP/C0001.MP4")
   end
 end
