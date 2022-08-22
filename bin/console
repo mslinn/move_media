@@ -2,8 +2,8 @@
 
 # frozen_string_literal: true
 
-require "bundler/setup"
-require "fileutils"
-require "irb"
+require 'bundler/setup'
+require 'irb'
+require 'move_media'
 
 IRB.start(__FILE__)

@@ -9,5 +9,14 @@ AllCops:
 Layout/LineLength:
   Max: 150
 
+Metrics/MethodLength:
+  Max: 20
+
+Style/StringLiterals:
+  EnforcedStyle: single_quotes
+
+Style/CommandLiteral:
+  EnforcedStyle: percent_x
+
 # Gemspec/RequireMFA:
 #   enable: false

@@ -16,8 +16,10 @@ move_media
 Modify the following and save as $HOME/.move_media:
 
 ```yaml
-source: /mnt/h
 destination: /mnt/e/media/staging
+drive: 'h:'
+source: /mnt/h
+topic: sony
 ```
 
 Install like this:
@@ -27,7 +29,7 @@ $ gem install move_media
 
 ## Additional Information
 More information is available on
-[Mike Slinn&rsquo;s website](https://www.mslinn.com/blog/2020/10/03/jekyll-plugins.html).
+[Mike Slinn&rsquo;s website](https://www.mslinn.com/av_studio/210-sony-a7iii.html).
 
 
 ## Development
