@@ -49,7 +49,7 @@ class MoveMedia
       seq = basename.split('_')[-1]
       @seq = [@seq, seq.to_i].max if seq.integer?
     end
-    @seq + 1
+    @seq += 1
   end
 
   def read_configuration
@@ -66,7 +66,7 @@ class MoveMedia
   def main
     source = mount_point(@drive)
     already_mounted = mount_memory_card(source, drive)
-    scan_for_highest_seq(destination)
+    scan_for_next_seq(destination)
     video_filenames(source).each do |fn|
       new_name = process_video(fn)
       move_thumbnails(source, @destination, new_name)

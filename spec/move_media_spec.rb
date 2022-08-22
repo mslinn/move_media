@@ -7,7 +7,7 @@ class MoveMedia
   attr_accessor :seq
 end
 
-RSpec.describe(MoveMediaVersion) do # rubocop:disable Metrics/BlockLength
+RSpec.describe(MoveMedia) do # rubocop:disable Metrics/BlockLength
   include MoveMediaVersion
 
   let(:destination_images) { 'spec/fixtures/destination/images' }
@@ -49,9 +49,10 @@ RSpec.describe(MoveMediaVersion) do # rubocop:disable Metrics/BlockLength
 
   it 'makes next video name' do
     mm = MoveMedia.new
+    mm.scan_for_next_seq(destination_video)
     expect(mm.make_video_name).to eq('sony_2022-08-22_0000042')
 
-    mm.seq = 665
+    mm.seq = 666
     expect(mm.make_video_name).to eq('sony_2022-08-22_0000666')
   end
 end
