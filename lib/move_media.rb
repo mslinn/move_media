@@ -9,9 +9,8 @@ class MoveMedia
   attr_reader :destination, :drive, :topic
 
   def initialize
-    @destination = Dir.home
-    @drive = 'c:'
-    @topic = 'sony'
+    read_configuration
+    @seq = 1
   end
 
   # Move Sony camera thumbnails for video_filename from source to destination
@@ -23,11 +22,19 @@ class MoveMedia
     end
   end
 
+  # Destination files are yyyy-mm-dd_topic_01234.{mp4,jpg}
+  def process_video(source, fn_fq)
+    new_name = "#{@topic}_#{Date.today}_#{seq}"
+    move_and_rename(fn_fq, "#{@destination}/#{new_name}.mp4")
+    move_thumbnails(source, @destination, video_filenameq)
+    @seq += 1
+  end
+
   # Scans video file names in destination
   # Files are named like: sony_2022-08-22_000001.mp4
   # @return [int] next sequence number based on what is already present in destination
   def scan_for_next_seq(destination)
-    seq = 0
+    @seq = 0
     Dir[destination].each do |path|
       basename = File.basename(path, '.*')
       segment = if basename.include?('_')
@@ -35,11 +42,11 @@ class MoveMedia
                 elsif basename.include?('-')
                   basename.split('-')[-1]
                 else
-                  seq
+                  @seq
                 end
-      seq = [seq, segment.to_i].max if segment.integer?
+      @seq = [@seq, segment.to_i].max if segment.integer?
     end
-    seq + 1
+    @seq + 1
   end
 
   def read_configuration
@@ -48,30 +55,16 @@ class MoveMedia
     config = YAML.load_file(CONFIGURATION_FILE)
     @destination = config['destination']
     @drive = config['drive']
+    @source = mount_point(@drive)
     @topic = config['topic']
   end
 
+  # Leaves memory card mounted if it was already mounted
   def main
-    topic = 'sony'
-    drive = 'h:'
-    source = mount_point(drive)
+    source = mount_point(@drive)
     already_mounted = mount_memory_card(source, drive)
-    destination = '/mnt/e/media/staging'
-
-    seq = scan_for_highest_seq destination
-
-    # Destination files are yyyy-mm-dd_topic_01234.{mp4,jpg}
-    video_filenames(source).each do |fn|
-      filename = File.basename(fn, '.*')
-
-      new_name = "#{topic}_#{Date.today}_#{seq}"
-      move_and_rename fn, "#{destination}/#{new_name}.mp4"
-
-      move_thumbnails(source, destination, video_filenameq)
-
-      seq += 1
-    end
-
+    scan_for_highest_seq(destination)
+    video_filenames(source).each { |fn| process_video(source, fn) }
     unmount_memory_card(source) unless already_mounted
   end
 end
