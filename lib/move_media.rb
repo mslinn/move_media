@@ -16,24 +16,25 @@ class MoveMedia
     @seq = 1
   end
 
-  # Move Sony camera thumbnails for video_filename from source to destination
-  def move_thumbnails(source, destination, video_filename)
-    sony_thumbnails(source, video_filename).each do |old_path|
-      old_name = File.basename(x, '.*')
-      new_path = "#{destination}/#{old_name}.jpg"
-      move_and_rename(old_path, new_path)
-    end
-  end
-
   def make_video_name
     seq = @seq.to_s.rjust(SIGNIFICANT_DIGITS, '0')
     "#{@topic}_#{Date.today}_#{seq}"
   end
 
+  # Move Sony camera thumbnail for video_filename from source to destination
+  # @return new path for thumbnail
+  def move_thumbnail(video_filename_stem)
+    old_path = sony_thumbnail(@source, video_filename_stem)
+    old_name = File.basename(x, '.*')
+    new_path = "#{@destination_images}/#{old_name}.jpg"
+    move_and_rename(old_path, new_path)
+    new_path
+  end
+
   # Destination files are yyyy-mm-dd_topic_0001234.{mp4,jpg}
   def process_video(fn_fq)
     new_name = make_video_name
-    move_and_rename(fn_fq, "#{@destination}/#{new_name}.mp4")
+    move_and_rename(fn_fq, "#{@destination_video}/#{new_name}.mp4")
     @seq += 1
     new_name
   end
@@ -56,7 +57,8 @@ class MoveMedia
     raise "Error: #{CONFIGURATION_FILE} does not exist." unless File.exist? CONFIGURATION_FILE
 
     config = YAML.load_file(CONFIGURATION_FILE)
-    @destination = config['destination']
+    @destination_images = config['destination_images']
+    @destination_video = config['destination_video']
     @drive = config['drive']
     @source = mount_point(@drive)
     @topic = config['topic']
@@ -64,13 +66,12 @@ class MoveMedia
 
   # Leaves memory card mounted if it was already mounted
   def main
-    source = mount_point(@drive)
-    already_mounted = mount_memory_card(source, drive)
-    scan_for_next_seq(destination)
-    video_filenames(source).each do |fn|
-      new_name = process_video(fn)
-      move_thumbnails(source, @destination, new_name)
+    already_mounted = mount_memory_card(@source, @drive)
+    scan_for_next_seq(@destination_video)
+    video_filenames(@source).each do |fn_fq|
+      new_name = process_video(fn_fq)
+      move_thumbnail(new_name)
     end
-    unmount_memory_card(source) unless already_mounted
+    unmount_memory_card(@source) unless already_mounted
   end
 end

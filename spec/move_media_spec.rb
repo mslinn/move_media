@@ -10,7 +10,7 @@ end
 RSpec.describe(MoveMedia) do # rubocop:disable Metrics/BlockLength
   include MoveMediaVersion
 
-  let(:destination_images) { 'spec/fixtures/destination/images' }
+  let(:destination_image) { 'spec/fixtures/destination/images' }
   let(:destination_video) { 'spec/fixtures/destination/videos' }
   let(:source) { 'spec/fixtures/source' }
 
@@ -58,8 +58,18 @@ RSpec.describe(MoveMedia) do # rubocop:disable Metrics/BlockLength
 
   it 'processes a video' do
     mm = MoveMedia.new
+    mm.destination = destination_video
     old_name = "#{source}/PRIVATE/M4ROOT/CLIP/C0001.MP4"
     new_name = mm.process_video(old_name)
+    expect(old_name.exist?).to be_false
+    expect(new_name.exist?).to be_true
+  end
+
+  it 'processes video thumbnails' do
+    mm = MoveMedia.new
+    mm.destination = destination_image
+    old_name = "#{source}/PRIVATE/M4ROOT/THMBNL/C0001.MP4"
+    new_name = mm.move_thumbnails(old_name)
     expect(old_name.exist?).to be_false
     expect(new_name.exist?).to be_true
   end

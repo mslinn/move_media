@@ -42,7 +42,7 @@ def mount_point(dos_drive)
 end
 
 def move_and_rename(old_path, new_path)
-  File.rename old_path, new_path
+  File.rename(old_path, new_path)
 end
 
 # @return [[String]] JPG filenames on memory card
