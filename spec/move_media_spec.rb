@@ -55,4 +55,16 @@ RSpec.describe(MoveMedia) do # rubocop:disable Metrics/BlockLength
     mm.seq = 666
     expect(mm.make_video_name).to eq('sony_2022-08-22_0000666')
   end
+
+  id 'processes a video' do
+    mm = MoveMedia.new
+    old_name = "#{source}/PRIVATE/M4ROOT/CLIP/C0001.MP4"
+    new_name = mm.process_video(old_name)
+    expect(old_name.exist?).to be_false
+    expect(new_name.exist?).to be_true
+  end
+
+  after(:all) do
+    %x(git restore --source=HEAD --staged --worktree -- fixtures)
+  end
 end
