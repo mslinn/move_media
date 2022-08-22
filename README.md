@@ -18,7 +18,6 @@ Modify the following and save as $HOME/.move_media:
 ```yaml
 destination: /mnt/e/media/staging
 drive: 'h:'
-source: /mnt/h
 topic: sony
 ```
 
