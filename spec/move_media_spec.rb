@@ -87,6 +87,18 @@ RSpec.describe(MoveMedia) do # rubocop:disable Metrics/BlockLength
     expect(File.exist?(new_name)).to be true
   end
 
+  it 'processes video thumbnails' do
+    mm = MoveMedia.new
+    mm.destination_images = destination_images
+    mm.destination_video = destination_video
+    mm.source = source
+    mm.main
+
+    video_file = "#{mm.destination_video}/sony_#{Date.today}_0000042.mp4"
+    p video_file
+    expect(File.exist?(video_file)).to be true
+  end
+
   after(:all) do
     %x(
       git restore --source=HEAD --staged --worktree -- spec/fixtures
