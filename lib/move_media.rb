@@ -67,7 +67,7 @@ class MoveMedia
 
   # Leaves memory card mounted if it was already mounted
   def main
-    already_mounted = mount_memory_card(@source, @drive)
+    already_mounted = mount_memory_card(@drive)
     scan_for_next_seq(@destination_video)
     video_filenames(@source).each do |fn_fq|
       process_video(fn_fq)

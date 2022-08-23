@@ -24,11 +24,12 @@ def drive_mounted?(mount_path)
 end
 
 # @return [Boolean] true if memory card was already mounted
-def mount_memory_card(drive, source)
-  return true if drive_mounted?(source)
+def mount_memory_card(drive)
+  drive_path = mount_point(drive)
+  return true if drive_mounted?(drive_path)
 
-  %x(sudo mkdir #{source}) unless File.exist?(source)
-  %x(sudo mount -t drvfs #{drive} #{source})
+  %x(sudo mkdir #{drive_path}) unless File.exist?(drive_path)
+  %x(sudo mount -t drvfs #{drive} #{drive_path})
   false
 end
 
@@ -55,8 +56,8 @@ def sony_thumbnail(source, stem)
   Dir[thumb_source_names][0]
 end
 
-def unmount_memory_card(source)
-  %x(sudo umount #{source})
+def unmount_memory_card(mount_point)
+  %x(sudo umount #{mount_point})
 end
 
 # /mnt/h/PRIVATE/M4ROOT/CLIP/C0001.MP4

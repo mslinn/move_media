@@ -37,6 +37,13 @@ RSpec.describe(MoveMedia) do # rubocop:disable Metrics/BlockLength
     expect(mount_point(drive)).to eq('/mnt/h')
   end
 
+  it 'verifies mounted drive' do
+    mm = MoveMedia.new
+    mm.read_configuration
+    already_mounted = mount_memory_card(mm.drive)
+    unmount_memory_card(mm.source) if already_mounted
+  end
+
   it 'finds videos' do
     fns = video_filenames(source)
     expect(fns.length).to eq(1)
@@ -95,7 +102,6 @@ RSpec.describe(MoveMedia) do # rubocop:disable Metrics/BlockLength
     mm.main
 
     video_file = "#{mm.destination_video}/sony_#{Date.today}_0000042.mp4"
-    p video_file
     expect(File.exist?(video_file)).to be true
   end
 
