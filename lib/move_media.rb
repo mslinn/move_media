@@ -34,9 +34,10 @@ class MoveMedia
   # Destination files are yyyy-mm-dd_topic_0001234.{mp4,jpg}
   def process_video(fn_fq)
     new_name = make_video_name
-    move_and_rename(fn_fq, "#{@destination_video}/#{new_name}.mp4")
+    new_name_fq = "#{@destination_video}/#{new_name}.mp4"
+    move_and_rename(fn_fq, new_name_fq)
     @seq += 1
-    new_name
+    new_name_fq
   end
 
   def read_configuration

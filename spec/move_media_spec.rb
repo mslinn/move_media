@@ -73,8 +73,8 @@ RSpec.describe(MoveMedia) do # rubocop:disable Metrics/BlockLength
     mm.source = source
     old_name = "#{source}/PRIVATE/M4ROOT/CLIP/C0001.MP4"
     new_name = mm.process_video(old_name)
-    expect(old_name.present?).to be_false
-    expect(new_name.present?).to be_true
+    expect(File.exist?(old_name)).to be false
+    expect(File.exist?(new_name)).to be true
   end
 
   it 'processes video thumbnails' do
