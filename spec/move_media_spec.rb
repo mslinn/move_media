@@ -46,11 +46,13 @@ RSpec.describe(MoveMedia) do # rubocop:disable Metrics/BlockLength
 
   it 'scans for next sequence number' do
     mm = MoveMedia.new
+    mm.source = source
     expect(mm.scan_for_next_seq(destination_video)).to eq(42)
   end
 
   it 'makes next video name' do
     mm = MoveMedia.new
+    mm.source = source
     mm.scan_for_next_seq(destination_video)
     expect(mm.make_video_name).to eq("sony_#{Date.today}_0000042")
 
@@ -62,6 +64,7 @@ RSpec.describe(MoveMedia) do # rubocop:disable Metrics/BlockLength
     mm = MoveMedia.new
     mm.destination_video = destination_video
     mm.destination_images = destination_images
+    mm.source = source
     old_name = "#{source}/PRIVATE/M4ROOT/CLIP/C0001.MP4"
     new_name = mm.process_video(old_name)
     expect(old_name.present?).to be_false
@@ -72,6 +75,7 @@ RSpec.describe(MoveMedia) do # rubocop:disable Metrics/BlockLength
     mm = MoveMedia.new
     mm.destination_images = destination_images
     mm.destination_video = destination_video
+    mm.source = source
     old_name = "#{source}/PRIVATE/M4ROOT/THMBNL/C0001.MP4"
     new_name = mm.move_thumbnail(old_name)
     expect(old_name.present?).to be_false
