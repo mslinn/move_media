@@ -25,7 +25,7 @@ $ gem install move_media
 ## Usage
 Check out this project, then run
 ```
-$ bin/run
+$ bin/move_media
 Moving 7.97 GB video from /mnt/h/PRIVATE/M4ROOT/CLIP/C0002.MP4 to /mnt/e/media/staging/CLIP/sony_2022-08-20_0000002.mp4
 Moving thumbnail from /mnt/h/PRIVATE/M4ROOT/THMBNL/C0002T01.JPG to /mnt/e/media/staging/THMBNL/C0002.jpg
 Moving 2.37 GB video from /mnt/h/PRIVATE/M4ROOT/CLIP/C0003.MP4 to /mnt/e/media/staging/CLIP/sony_2022-08-20_0000003.mp4
