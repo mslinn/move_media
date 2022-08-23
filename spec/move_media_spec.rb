@@ -5,7 +5,7 @@ require_relative '../lib/mm_util'
 
 # Monkey patch class
 class MoveMedia
-  attr_accessor :destination_images, :destination_video, :seq
+  attr_accessor :destination_images, :destination_video, :drive, :seq, :source
 end
 
 RSpec.describe(MoveMedia) do # rubocop:disable Metrics/BlockLength
@@ -53,6 +53,7 @@ RSpec.describe(MoveMedia) do # rubocop:disable Metrics/BlockLength
   it 'makes next video name' do
     mm = MoveMedia.new
     mm.source = source
+    File.cp("#{source}/PRIVATE/M4ROOT/CLIP/C0001.MP4", "#{destination_video}/sony_#{Date.today}_0000041.mp4")
     mm.scan_for_next_seq(destination_video)
     expect(mm.make_video_name).to eq("sony_#{Date.today}_0000042")
 
