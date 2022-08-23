@@ -4,12 +4,6 @@
 
 `move_media` moves files from Sony Camera memory cards to permanent storage.
 
-## Usage
-
-```
-move_media
-```
-
 
 ## Installation
 
@@ -26,6 +20,21 @@ Install like this:
 ```
 $ gem install move_media
 ```
+
+
+## Usage
+Check out this project, then run
+```
+$ bin/run
+Moving 7.97 GB video from /mnt/h/PRIVATE/M4ROOT/CLIP/C0002.MP4 to /mnt/e/media/staging/CLIP/sony_2022-08-20_0000002.mp4
+Moving thumbnail from /mnt/h/PRIVATE/M4ROOT/THMBNL/C0002T01.JPG to /mnt/e/media/staging/THMBNL/C0002.jpg
+Moving 2.37 GB video from /mnt/h/PRIVATE/M4ROOT/CLIP/C0003.MP4 to /mnt/e/media/staging/CLIP/sony_2022-08-20_0000003.mp4
+Moving thumbnail from /mnt/h/PRIVATE/M4ROOT/THMBNL/C0003T01.JPG to /mnt/e/media/staging/THMBNL/C0003.jpg
+Moving 1.23 GB video from /mnt/h/PRIVATE/M4ROOT/CLIP/C0004.MP4 to /mnt/e/media/staging/CLIP/sony_2022-08-20_0000004.mp4
+Moving thumbnail from /mnt/h/PRIVATE/M4ROOT/THMBNL/C0004T01.JPG to /mnt/e/media/staging/THMBNL/C0004.jpg
+Moving 1.48 GB video from /mnt/h/PRIVATE/M4ROOT/CLIP/C0005.MP4 to /mnt/e/media/staging/CLIP/sony_2022-08-20_0000005.mp4
+```
+
 
 ## Additional Information
 More information is available on
