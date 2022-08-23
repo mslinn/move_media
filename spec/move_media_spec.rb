@@ -101,7 +101,10 @@ RSpec.describe(MoveMedia) do # rubocop:disable Metrics/BlockLength
     mm.source = source
     mm.main
 
-    video_file = "#{mm.destination_video}/sony_#{Date.today}_0000042.mp4"
+    video_file = "#{mm.destination_video}/sony_#{Date.today}_0000041.mp4"
+    # p "video_file=#{video_file}"
+    # p "Listing files in #{mm.destination_video}"
+    # %x(ls "#{mm.destination_video}")
     expect(File.exist?(video_file)).to be true
   end
 

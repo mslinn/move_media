@@ -29,7 +29,7 @@ def mount_memory_card(drive)
   return true if drive_mounted?(drive_path)
 
   %x(sudo mkdir #{drive_path}) unless File.exist?(drive_path)
-  %x(sudo mount -t drvfs #{drive} #{drive_path})
+  %x(sudo mount -t drvfs #{drive.upcase} #{drive_path})
   false
 end
 
