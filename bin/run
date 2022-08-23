@@ -2,7 +2,7 @@
 
 # frozen_string_literal: true
 
-require 'move_media'
+require_relative '../lib/move_media'
 
 mm = MoveMedia.new
 mm.main

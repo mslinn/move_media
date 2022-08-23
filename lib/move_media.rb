@@ -28,6 +28,7 @@ class MoveMedia
     old_path = sony_thumbnail(@source, video_filename_stem)
     old_name = File.basename(old_path, '.*')
     new_path = "#{@destination_images}/#{old_name}.jpg"
+    p "process_video: old_path=#{old_path}, destination_images=#{@destination_images}, new_path=#{new_path}"
     move_and_rename(old_path, new_path)
     new_path
   end
@@ -36,6 +37,7 @@ class MoveMedia
   def process_video(fn_fq)
     new_name = make_video_name(fn_fq)
     new_name_fq = "#{@destination_video}/#{new_name}.mp4"
+    p "process_video: fn_fq=#{fn_fq}, @destination_video=#{@destination_video}, new_name_fq=#{new_name_fq}"
     move_and_rename(fn_fq, new_name_fq)
     @seq += 1
     new_name_fq

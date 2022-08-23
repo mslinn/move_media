@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.description = <<~END_OF_DESC
     Moves files from Sony Camera memory cards to permanent storage.
   END_OF_DESC
-  spec.bindir = 'exe'
+  # spec.bindir = 'exe'
   spec.email = ['mslinn@mslinn.com']
   spec.files = Dir['.rubocop.yml', 'LICENSE.*', 'Rakefile', '{lib,spec}/**/*', '*.gemspec', '*.md']
   spec.executables = 'move_media'

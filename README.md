@@ -16,7 +16,8 @@ move_media
 Modify the following and save as $HOME/.move_media:
 
 ```yaml
-destination: /mnt/e/media/staging
+destination_images: /mnt/e/media/staging/THMBNL
+destination_video: /mnt/e/media/staging/CLIP
 drive: 'h:'
 topic: sony
 ```

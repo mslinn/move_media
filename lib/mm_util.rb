@@ -44,7 +44,8 @@ end
 
 # @param old_path [String] file to be moved; raises exception if not present
 def move_and_rename(old_path, new_path)
-  FileUtils.mv(old_path, new_path)
+  FileUtils.cp(old_path, new_path)
+  File.delete(old_path)
 end
 
 # @param source [String] Directory containing videos.
