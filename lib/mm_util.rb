@@ -47,7 +47,7 @@ end
 
 # @return [[String]] JPG filenames on memory card
 #   example: [ /mnt/h/PRIVATE/M4ROOT/THMBNL/C0001T01.JPG ]
-def sony_thumbnails(source, stem)
+def sony_thumbnail(source, stem)
   thumb_source_names = "#{source}/PRIVATE/M4ROOT/THMBNL/#{stem}*.JPG"
   Dir[thumb_source_names]
 end

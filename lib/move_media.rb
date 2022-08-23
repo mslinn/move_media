@@ -7,7 +7,7 @@ require_relative 'mm_util'
 
 # Moves media from a Sony memory card to permanent storage
 class MoveMedia
-  attr_reader :destination, :drive, :topic
+  attr_reader :destination_images, :destination_video, :drive, :topic
 
   SIGNIFICANT_DIGITS = 7
 
@@ -25,7 +25,7 @@ class MoveMedia
   # @return new path for thumbnail
   def move_thumbnail(video_filename_stem)
     old_path = sony_thumbnail(@source, video_filename_stem)
-    old_name = File.basename(x, '.*')
+    old_name = File.basename(old_path, '.*')
     new_path = "#{@destination_images}/#{old_name}.jpg"
     move_and_rename(old_path, new_path)
     new_path
@@ -37,6 +37,17 @@ class MoveMedia
     move_and_rename(fn_fq, "#{@destination_video}/#{new_name}.mp4")
     @seq += 1
     new_name
+  end
+
+  def read_configuration
+    raise "Error: #{CONFIGURATION_FILE} does not exist." unless File.exist? CONFIGURATION_FILE
+
+    config = YAML.load_file(CONFIGURATION_FILE)
+    @destination_images = config['destination_images']
+    @destination_video = config['destination_video']
+    @drive = config['drive']
+    @source = mount_point(@drive)
+    @topic = config['topic']
   end
 
   # Scans video file names in destination
@@ -51,17 +62,6 @@ class MoveMedia
       @seq = [@seq, seq.to_i].max if seq.integer?
     end
     @seq += 1
-  end
-
-  def read_configuration
-    raise "Error: #{CONFIGURATION_FILE} does not exist." unless File.exist? CONFIGURATION_FILE
-
-    config = YAML.load_file(CONFIGURATION_FILE)
-    @destination_images = config['destination_images']
-    @destination_video = config['destination_video']
-    @drive = config['drive']
-    @source = mount_point(@drive)
-    @topic = config['topic']
   end
 
   # Leaves memory card mounted if it was already mounted
