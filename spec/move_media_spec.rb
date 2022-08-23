@@ -84,7 +84,7 @@ RSpec.describe(MoveMedia) do # rubocop:disable Metrics/BlockLength
     mm.source = source
     video_filename_stem = 'C0001'
     new_name = mm.move_thumbnail(video_filename_stem)
-    expect(new_name.present?).to be_true
+    expect(File.exist?(new_name)).to be true
   end
 
   after(:all) do
