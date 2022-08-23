@@ -7,13 +7,14 @@ Gem::Specification.new do |spec|
   github = 'https://github.com/mslinn/move_media'
 
   spec.authors = ['Mike Slinn']
-  spec.bindir = 'exe'
   spec.description = <<~END_OF_DESC
     Moves files from Sony Camera memory cards to permanent storage.
   END_OF_DESC
+  spec.bindir = 'exe'
   spec.email = ['mslinn@mslinn.com']
   spec.files = Dir['.rubocop.yml', 'LICENSE.*', 'Rakefile', '{lib,spec}/**/*', '*.gemspec', '*.md']
-  spec.homepage = 'https://www.mslinn.com/blog/2020/10/03/jekyll-plugins.html#nth'
+  spec.executables = 'move_media'
+  spec.homepage = 'https://www.mslinn.com/av_studio/210-sony-a7iii.html'
   spec.license = 'MIT'
   spec.metadata = {
     'allowed_push_host' => 'https://rubygems.org',
