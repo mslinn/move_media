@@ -70,8 +70,9 @@ class MoveMedia
     already_mounted = mount_memory_card(@source, @drive)
     scan_for_next_seq(@destination_video)
     video_filenames(@source).each do |fn_fq|
-      new_name = process_video(fn_fq)
-      move_thumbnail(new_name)
+      process_video(fn_fq)
+      video_filename_stem = File.basename(fn_fq, '.*')
+      move_thumbnail(video_filename_stem)
     end
     unmount_memory_card(@source) unless already_mounted
   end
