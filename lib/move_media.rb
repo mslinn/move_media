@@ -29,8 +29,7 @@ class MoveMedia
     old_path = sony_thumbnail(@source, video_filename_stem)
     return nil if old_path.nil?
 
-    old_name = File.basename(old_path, '.*')
-    new_path = "#{@destination_images}/#{old_name}.jpg"
+    new_path = "#{@destination_images}/#{video_filename_stem}.jpg"
     puts "Moving thumbnail from #{old_path} to #{new_path}"
     move_and_rename(old_path, new_path)
     new_path
