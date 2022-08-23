@@ -14,8 +14,8 @@ class String
   end
 end
 
-def delete_mp4s(source)
-  Dir[source]
+def delete_xml_files(source)
+  Dir["#{source}/*.xml"].delete
 end
 
 # @param mount_path [String] contains the mount path to be verified.
@@ -44,6 +44,8 @@ end
 
 # @param old_path [String] file to be moved; raises exception if not present
 def move_and_rename(old_path, new_path)
+  raise "Error: #{new_path} already exists." if File.file?(new_path)
+
   FileUtils.cp(old_path, new_path)
   File.delete(old_path)
 end
