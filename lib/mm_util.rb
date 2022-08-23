@@ -49,7 +49,7 @@ end
 #   example: [ /mnt/h/PRIVATE/M4ROOT/THMBNL/C0001T01.JPG ]
 def sony_thumbnail(source, stem)
   thumb_source_names = "#{source}/PRIVATE/M4ROOT/THMBNL/#{stem}*.JPG"
-  Dir[thumb_source_names]
+  Dir[thumb_source_names][0]
 end
 
 def unmount_memory_card(source)
