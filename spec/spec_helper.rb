@@ -4,7 +4,7 @@ require_relative "../lib/move_media"
 
 RSpec.configure do |config|
   config.filter_run :focus
-  config.order = "random"
+  config.order = 'defined'
   config.run_all_when_everything_filtered = true
 
   # See https://relishapp.com/rspec/rspec-core/docs/command-line/only-failures

@@ -44,9 +44,8 @@ RSpec.describe(MoveMedia) do # rubocop:disable Metrics/BlockLength
   end
 
   it 'finds thumbnails for video file stem C0001' do
-    thumbs = sony_thumbnail(source, 'C0001')
-    expect(thumbs.length).to eq(4)
-    expect(thumbs[0]).to eq("#{source}/PRIVATE/M4ROOT/THMBNL/C0001T01.JPG")
+    thumb = sony_thumbnail(source, 'C0001')
+    expect(thumb).to eq("#{source}/PRIVATE/M4ROOT/THMBNL/C0001T01.JPG")
   end
 
   it 'scans for next sequence number' do
