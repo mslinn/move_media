@@ -1,0 +1,8 @@
+#!/usr/bin/env ruby
+
+# frozen_string_literal: true
+
+require 'move_media'
+
+mm = MoveMedia.new
+mm.main
