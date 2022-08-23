@@ -45,6 +45,8 @@ def move_and_rename(old_path, new_path)
   File.rename(old_path, new_path)
 end
 
+# @param source [String] Directory containing videos.
+# @param stem [String] File name of video, without extension
 # @return [[String]] JPG filenames on memory card
 #   example: [ /mnt/h/PRIVATE/M4ROOT/THMBNL/C0001T01.JPG ]
 def sony_thumbnail(source, stem)

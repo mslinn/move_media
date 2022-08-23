@@ -2,10 +2,15 @@
 
 require_relative '../lib/move_media'
 require_relative '../lib/mm_util'
+require 'fileutils'
 
 # Monkey patch class
 class MoveMedia
   attr_accessor :destination_images, :destination_video, :drive, :seq, :source
+end
+
+def copy_videos_to_destination
+  FileUtils.cp("#{source}/PRIVATE/M4ROOT/CLIP/C0001.MP4", "#{destination_video}/sony_#{Date.today}_0000041.mp4")
 end
 
 RSpec.describe(MoveMedia) do # rubocop:disable Metrics/BlockLength
@@ -47,13 +52,14 @@ RSpec.describe(MoveMedia) do # rubocop:disable Metrics/BlockLength
   it 'scans for next sequence number' do
     mm = MoveMedia.new
     mm.source = source
+    copy_videos_to_destination
     expect(mm.scan_for_next_seq(destination_video)).to eq(42)
   end
 
   it 'makes next video name' do
     mm = MoveMedia.new
     mm.source = source
-    File.cp("#{source}/PRIVATE/M4ROOT/CLIP/C0001.MP4", "#{destination_video}/sony_#{Date.today}_0000041.mp4")
+    copy_videos_to_destination
     mm.scan_for_next_seq(destination_video)
     expect(mm.make_video_name).to eq("sony_#{Date.today}_0000042")
 
@@ -77,9 +83,8 @@ RSpec.describe(MoveMedia) do # rubocop:disable Metrics/BlockLength
     mm.destination_images = destination_images
     mm.destination_video = destination_video
     mm.source = source
-    old_name = "#{source}/PRIVATE/M4ROOT/THMBNL/C0001.MP4"
-    new_name = mm.move_thumbnail(old_name)
-    expect(old_name.present?).to be_false
+    video_filename_stem = 'C0001'
+    new_name = mm.move_thumbnail(video_filename_stem)
     expect(new_name.present?).to be_true
   end
 
