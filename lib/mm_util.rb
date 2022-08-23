@@ -15,7 +15,7 @@ class String
 end
 
 def delete_xml_files(source)
-  Dir["#{source}/*.xml"].delete
+  Dir["#{source}/**/*.XML"].each { |file| File.delete(file) }
 end
 
 # @param mount_path [String] contains the mount path to be verified.

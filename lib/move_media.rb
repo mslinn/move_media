@@ -2,6 +2,7 @@
 
 CONFIGURATION_FILE = "#{Dir.home}/.move_media"
 
+require 'bytesize'
 require 'date'
 require_relative 'mm_util'
 
@@ -30,16 +31,21 @@ class MoveMedia
 
     old_name = File.basename(old_path, '.*')
     new_path = "#{@destination_images}/#{old_name}.jpg"
-    p "Moving thumbnail from #{old_path} to #{new_path}"
+    puts "Moving thumbnail from #{old_path} to #{new_path}"
     move_and_rename(old_path, new_path)
     new_path
+  end
+
+  def human_file_size(filename)
+    ByteSize.new(File.size(filename)).to_s
   end
 
   # Destination files are yyyy-mm-dd_topic_0001234.{mp4,jpg}
   def process_video(fn_fq)
     new_name = make_video_name(fn_fq)
     new_name_fq = "#{@destination_video}/#{new_name}.mp4"
-    p "Moving video from #{fn_fq} to #{new_name_fq}"
+
+    puts "Moving #{size} video from #{fn_fq} to #{new_name_fq}"
     move_and_rename(fn_fq, new_name_fq)
     @seq += 1
     new_name_fq
@@ -79,6 +85,7 @@ class MoveMedia
       video_filename_stem = File.basename(fn_fq, '.*')
       move_thumbnail(video_filename_stem)
     end
+    delete_xml_files(@source)
     unmount_memory_card(@source) unless already_mounted
   end
 end
