@@ -41,6 +41,7 @@ def mount_point(dos_drive)
   "/mnt/#{match_data[1].downcase}"
 end
 
+# @param old_path [String] file to be moved; raises exception if not present
 def move_and_rename(old_path, new_path)
   File.rename(old_path, new_path)
 end
