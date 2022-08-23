@@ -9,16 +9,21 @@ class MoveMedia
   attr_accessor :destination_images, :destination_video, :drive, :seq, :source
 end
 
-def copy_videos_to_destination
-  FileUtils.cp("#{source}/PRIVATE/M4ROOT/CLIP/C0001.MP4", "#{destination_video}/sony_#{Date.today}_0000041.mp4")
-end
-
 RSpec.describe(MoveMedia) do # rubocop:disable Metrics/BlockLength
   include MoveMediaVersion
 
   let(:destination_images) { 'spec/fixtures/destination/images' }
   let(:destination_video) { 'spec/fixtures/destination/videos' }
   let(:source) { 'spec/fixtures/source' }
+
+  let(:file_to_copy) { "#{source}/PRIVATE/M4ROOT/CLIP/C0001.MP4" }
+
+  def copy_videos_to_destination
+    FileUtils.cp(
+      file_to_copy,
+      "#{destination_video}/sony_#{Date.today}_0000041.mp4"
+    )
+  end
 
   it 'reads config file' do
     mm = MoveMedia.new
@@ -62,15 +67,16 @@ RSpec.describe(MoveMedia) do # rubocop:disable Metrics/BlockLength
     expect(mm.scan_for_next_seq(destination_video)).to eq(42)
   end
 
-  it 'makes next video name' do
+  it 'makes video name' do
     mm = MoveMedia.new
     mm.source = source
     copy_videos_to_destination
     mm.scan_for_next_seq(destination_video)
-    expect(mm.make_video_name).to eq("sony_#{Date.today}_0000042")
+    file_date = File.ctime(file_to_copy).to_date
+    expect(mm.make_video_name(file_to_copy)).to eq("sony_#{file_date}_0000042")
 
     mm.seq = 666
-    expect(mm.make_video_name).to eq("sony_#{Date.today}_0000666")
+    expect(mm.make_video_name(file_to_copy)).to eq("sony_#{file_date}_0000666")
   end
 
   it 'processes a video' do

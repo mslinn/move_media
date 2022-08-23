@@ -16,9 +16,10 @@ class MoveMedia
     @seq = 1
   end
 
-  def make_video_name
+  def make_video_name(fn_fq)
+    date = File.ctime(fn_fq).to_date
     seq = @seq.to_s.rjust(SIGNIFICANT_DIGITS, '0')
-    "#{@topic}_#{Date.today}_#{seq}"
+    "#{@topic}_#{date}_#{seq}"
   end
 
   # Move Sony camera thumbnail for video_filename from source to destination
@@ -33,7 +34,7 @@ class MoveMedia
 
   # Destination files are yyyy-mm-dd_topic_0001234.{mp4,jpg}
   def process_video(fn_fq)
-    new_name = make_video_name
+    new_name = make_video_name(fn_fq)
     new_name_fq = "#{@destination_video}/#{new_name}.mp4"
     move_and_rename(fn_fq, new_name_fq)
     @seq += 1
