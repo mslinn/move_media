@@ -44,7 +44,7 @@ class MoveMedia
     new_name = make_video_name(fn_fq)
     new_name_fq = "#{@destination_video}/#{new_name}.mp4"
 
-    puts "Moving #{size} video from #{fn_fq} to #{new_name_fq}"
+    puts "Moving #{human_file_size(fn_fq)} video from #{fn_fq} to #{new_name_fq}"
     move_and_rename(fn_fq, new_name_fq)
     @seq += 1
     new_name_fq
