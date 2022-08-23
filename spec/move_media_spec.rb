@@ -73,10 +73,10 @@ RSpec.describe(MoveMedia) do # rubocop:disable Metrics/BlockLength
     copy_videos_to_destination
     mm.scan_for_next_seq(destination_video)
     file_date = File.ctime(file_to_copy).to_date
-    expect(mm.make_video_name(file_to_copy)).to eq("sony_#{file_date}_0000042")
+    expect(mm.make_name(file_to_copy)).to eq("sony_#{file_date}_0000042")
 
     mm.seq = 666
-    expect(mm.make_video_name(file_to_copy)).to eq("sony_#{file_date}_0000666")
+    expect(mm.make_name(file_to_copy)).to eq("sony_#{file_date}_0000666")
   end
 
   it 'processes a video' do
