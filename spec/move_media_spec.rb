@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 require_relative '../lib/move_media'
 require_relative '../lib/mm_util'
 require 'fileutils'

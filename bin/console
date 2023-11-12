@@ -1,9 +1,7 @@
 #!/usr/bin/env ruby
 
-# frozen_string_literal: true
-
 require 'bundler/setup'
 require 'irb'
-require 'move_media'
+require=_relative '../lib/move_media'
 
 IRB.start(__FILE__)

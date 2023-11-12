@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 CONFIGURATION_FILE = "#{Dir.home}/.move_media"
 
 require 'bytesize'
